@@ -1,0 +1,92 @@
+﻿@model TaxiFareEstimator.Models.TaxiTrip
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.VendorId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.VendorId, new SelectList(Enum.GetValues(typeof(Venders))), "Select Vender")
+                    <div>
+                        @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RateCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select data-val="true" data-val-required="RateCode is required." id="RateCode" name="RateCode">
+                        <option value="">Rate Code</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>5</option>
+                    </select>
+                    <div>
+                        @Html.ValidationMessageFor(model => model.RateCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PassengerCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select data-val="true" data-val-required="PassengerCount is required." id="PassengerCount" name="PassengerCount">
+                        <option value="">Number of passengers</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>
+                    <div>
+                        @Html.ValidationMessageFor(model => model.PassengerCount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TripTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TripTime, new { htmlAttributes = new { @class = "form-control" } })
+                    <div>
+                        @Html.ValidationMessageFor(model => model.TripTime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TripDistance, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TripDistance, new { htmlAttributes = new { @class = "form-control" } })
+                    <div>
+                        @Html.ValidationMessageFor(model => model.TripDistance, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PaymentType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.PaymentType, new SelectList(Enum.GetValues(typeof(PaymentTypes))), "Select Payment Type")
+                    <div>
+                        @Html.ValidationMessageFor(model => model.PaymentType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

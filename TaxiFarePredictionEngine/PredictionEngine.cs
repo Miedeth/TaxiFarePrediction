@@ -26,6 +26,7 @@ namespace TaxiFarePredictionEngine
 
         public RegressionMetrics Evaluate()
         {
+            string test = System.Configuration.ConfigurationManager.AppSettings("DataDirectory");
             string testDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "taxi-fare-test.csv");
             IDataView dataView = mlContext.Data.LoadFromTextFile<TaxiTrip>(testDataPath, hasHeader: true, separatorChar: ',');
 
