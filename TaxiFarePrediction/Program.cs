@@ -1,43 +1,24 @@
 ﻿using System;
-using System.IO;
-using Microsoft.ML;
 using Microsoft.ML.Data;
+using TaxiFarePredictionEngine.Models;
 
 namespace TaxiFarePrediction
 {
     class Program
     {
-        static readonly string trainDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "taxi-fare-train.csv");
-        static readonly string testDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "taxi-fare-test.csv");
 
         static void Main(string[] args)
         {
-            MLContext mlContext = new MLContext(seed: 0);
-            var model = Train(mlContext, trainDataPath);
-            Evaluate(mlContext, model);
-            TestSinglePrediction(mlContext, model);
+            TaxiFarePredictionEngine.PredictionEngine predictionEngine = new TaxiFarePredictionEngine.PredictionEngine();
+
+            Evaluate(predictionEngine);
+            TestSinglePrediction(predictionEngine);
             Console.ReadLine();
         }
 
-        private static ITransformer Train(MLContext mlContext, string dataPath)
+        private static void Evaluate(TaxiFarePredictionEngine.PredictionEngine predictionEngine)
         {
-            IDataView dataView = mlContext.Data.LoadFromTextFile<TaxiTrip>(dataPath, hasHeader: true, separatorChar: ',');
-            var pipeline = mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: "FareAmount")
-                .Append(mlContext.Transforms.Categorical.OneHotEncoding(outputColumnName: "VendorIdEncoded", inputColumnName: "VendorId"))
-                .Append(mlContext.Transforms.Categorical.OneHotEncoding(outputColumnName: "RateCodeEncoded", inputColumnName: "RateCode"))
-                .Append(mlContext.Transforms.Categorical.OneHotEncoding(outputColumnName: "PaymentTypeEncoded", inputColumnName: "PaymentType"))
-                .Append(mlContext.Transforms.Concatenate("Features", "VendorIdEncoded", "RateCodeEncoded", "PassengerCount", "TripDistance", "PaymentTypeEncoded"))
-                .Append(mlContext.Regression.Trainers.FastTree());
-
-            var model = pipeline.Fit(dataView);
-            return model;
-        }
-
-        private static void Evaluate(MLContext mlContext, ITransformer model)
-        {
-            IDataView dataView = mlContext.Data.LoadFromTextFile<TaxiTrip>(testDataPath, hasHeader: true, separatorChar: ',');
-            IDataView predictions = model.Transform(dataView);
-            RegressionMetrics metrics = mlContext.Regression.Evaluate(predictions, "Label", "Score");
+            RegressionMetrics metrics = predictionEngine.Evaluate();
 
             Console.WriteLine();
             Console.WriteLine($"*************************************************");
@@ -47,10 +28,8 @@ namespace TaxiFarePrediction
             Console.WriteLine($"*       Root Mean Squared Error:      {metrics.RootMeanSquaredError:#.##}");
         }
 
-        private static void TestSinglePrediction(MLContext mlContext, ITransformer model)
+        private static void TestSinglePrediction(TaxiFarePredictionEngine.PredictionEngine predictionEngine)
         {
-            var predictionFunction = mlContext.Model.CreatePredictionEngine<TaxiTrip, TaxiTripFarePrediction>(model);
-
             TaxiTrip taxiTripSample = new TaxiTrip()
             {
                 VendorId = "VTS",
@@ -62,7 +41,7 @@ namespace TaxiFarePrediction
                 FareAmount = 0
             };
 
-            TaxiTripFarePrediction prediction = predictionFunction.Predict(taxiTripSample);
+            TaxiTripFarePrediction prediction = predictionEngine.GetFarePrediction(taxiTripSample);
 
             Console.WriteLine($"**********************************************************************");
             Console.WriteLine($"Predicted fare: {prediction.FareAmount:0.####}, actual fare: 15.5");

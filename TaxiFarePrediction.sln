@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiFarePrediction", "TaxiFarePrediction\TaxiFarePrediction.csproj", "{95AF2545-7685-44F6-B4A1-8AAFB767CF6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxiFarePrediction", "TaxiFarePrediction\TaxiFarePrediction.csproj", "{95AF2545-7685-44F6-B4A1-8AAFB767CF6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiFarePredictionEngine", "TaxiFarePredictionEngine\TaxiFarePredictionEngine.csproj", "{F32D9E8F-BCEF-4752-B1DC-F6D7C96F94B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{95AF2545-7685-44F6-B4A1-8AAFB767CF6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95AF2545-7685-44F6-B4A1-8AAFB767CF6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95AF2545-7685-44F6-B4A1-8AAFB767CF6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F32D9E8F-BCEF-4752-B1DC-F6D7C96F94B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F32D9E8F-BCEF-4752-B1DC-F6D7C96F94B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F32D9E8F-BCEF-4752-B1DC-F6D7C96F94B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F32D9E8F-BCEF-4752-B1DC-F6D7C96F94B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

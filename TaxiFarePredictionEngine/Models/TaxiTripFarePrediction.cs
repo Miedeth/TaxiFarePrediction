@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace TaxiFarePrediction
+namespace TaxiFarePredictionEngine.Models
 {
     public class TaxiTripFarePrediction
     {
